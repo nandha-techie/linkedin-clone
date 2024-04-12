@@ -8,8 +8,8 @@ import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import React, { forwardRef } from 'react';
 
 
-const Post = forwardRef(({ name, description, message, url, index}, ref)=>{
-    
+const Post = forwardRef(({ id, name, message, url, likeHandle, likecount }, ref)=>{
+
     return(
         <div className='post' ref={ref}>
             <div className='post__header'>
@@ -23,7 +23,7 @@ const Post = forwardRef(({ name, description, message, url, index}, ref)=>{
                 <p>{ message }</p>
             </div>
             <div className='post__buttons'>
-                <InputOptions Icon={ThumbUpAltIcon} title='Like' color='gray' />
+                <InputOptions like={likecount.length} Icon={ThumbUpAltIcon} title='Like'likeHandle={likeHandle} id={id}  color='gray' />
                 <InputOptions Icon={ChatOutlinedIcon} title='Comment' color='gray' />
                 <InputOptions Icon={ShareOutlinedIcon} title='Share' color='gray' />
                 <InputOptions Icon={SendOutlinedIcon} title='Send' color='gray' />

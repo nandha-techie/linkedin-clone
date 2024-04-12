@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Feed.css';
 import CreateIcon from '@mui/icons-material/Create';
 import InputOptions from './InputOptions';
@@ -11,13 +11,21 @@ import { db } from '../firebase';
 import { selectUser } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import FlipMove from 'react-flip-move';
-
-import { query, collection, addDoc, Timestamp, onSnapshot, orderBy } from 'firebase/firestore';
+import { query, collection, addDoc, Timestamp, onSnapshot, orderBy,setDoc, getDoc, doc } from 'firebase/firestore';
 
 const Feed = ()=>{
     const user = useSelector(selectUser);
+    const searchValue = useSelector(state => state.user);
     const [posts, setPosts] = useState([]);
     const [postInput, setPostInput] = useState('');
+    let tempPost = useRef([]);
+
+    const likeHandle = async (val)=>{
+        const docRef = doc(db, "posts", val);
+        const docSnap = await getDoc(docRef);
+        const data = docSnap.data();
+        await setDoc(docRef, {...data, like: (!data.like.includes(val)) ? [...data.like, val] : data.like });
+    }
 
     const sendPost = async (e)=>{
         e.preventDefault();
@@ -27,27 +35,33 @@ const Feed = ()=>{
             message: postInput,
             timestamp: Timestamp.now(),
             photoURL: user?.photoURL || "",
+            like: []
           });
           setPostInput("");
     }
 
     useEffect(()=>{
-        
-        function feedData() {
-            const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
-            onSnapshot(q, (snapshot) => {
-                setPosts(snapshot.docs.map((doc) =>(
-                    {
-                        id: doc.id,
-                        ...doc.data()
-                    }
-                )))                   
-            });
-                       
-          };
-          feedData();
+        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"), );
+        const a = onSnapshot(q, (snapshot) => {
+            const newData = snapshot.docs.map((doc) => ( 
+                {
+                    id: doc.id,
+                    ...doc.data()
+                }
+            ));
+            setPosts((prevpost)=> [...newData]);
+            tempPost.current = [...tempPost.current, ...newData];
+        });
+        return ()=>{ a(); }
+    }, []);
 
-    }, [])
+    useEffect(()=>{
+        if(searchValue.searchData === ""){
+           setPosts([...tempPost.current]);
+        }else{
+            setPosts(tempPost.current.filter(post=> post.message.includes(searchValue.searchData)).map(data => data))
+        } 
+    }, [searchValue.searchData]);
 
     return(
         <div className='feed'>
@@ -70,10 +84,9 @@ const Feed = ()=>{
             {/* post */}
             <FlipMove>
                 { posts && posts.map((post, index) => (
-                    <Post key={post.id} name={post.displayName} description={post.description} url={post.photoURL} message={post.message} />
+                    <Post key={post.id} likecount={post.like} id={post.id} name={post.displayName} description={post.description} url={post.photoURL} message={post.message} likeHandle={likeHandle} />
                 )) }
-            </FlipMove>    
-            
+            </FlipMove>
         </div>
     )
 }

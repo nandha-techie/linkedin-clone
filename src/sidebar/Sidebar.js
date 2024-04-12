@@ -19,7 +19,7 @@ const Sidebar = ()=>{
                 <img src="https://plus.unsplash.com/premium_photo-1670768401521-fc2fc532f4ca?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="bg" />
                 <Avatar src={user.photoURL} className="sidebar__avatar" />
                 <h3>{user.displayName}</h3>
-                <h4>nandhawebapps@gmail.com</h4>
+                <h4>{user.email}</h4>
             </div>
             <div className='sidebar__stats'>
                 <div className='sidebar__stat'>

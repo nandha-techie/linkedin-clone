@@ -1,6 +1,9 @@
 .sidebar{
     flex: 0.2;
     border-radius: 5px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
 }
 .sidebar__top{
     display: flex;

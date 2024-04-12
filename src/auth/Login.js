@@ -53,7 +53,7 @@ const Login = ()=>{
                 dispatch(login({
                     email: user.email,
                     uid: user.uid,
-                    photoURL: user.photoURL,
+                    photoURL: photoURL ? photoURL : user.photoURL,
                     displayName: user.displayName
                 }))
             })
