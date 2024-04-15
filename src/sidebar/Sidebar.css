@@ -87,3 +87,20 @@
     margin-right: 10px;
     margin-left: 5px;
 }
+@media (max-width: 600px) {
+    .sidebar{
+        position: fixed;
+        top: 50px;
+        left: 0;
+        transform: translateX(-100%);
+        z-index: 1000;
+        transition: transform 0.3s;
+        background-color: #fff;
+        width: 100%;
+    }
+
+    .sidebar.active{
+        transform: translateX(0%);
+    }
+    
+}

@@ -40,3 +40,21 @@
 .widgets__articleRight > p{
     color: gray;
 }
+
+@media (max-width: 600px) {
+    .widgets{
+        position: fixed;
+        top: 50px;
+        right: 0;
+        transform: translateX(100%);
+        z-index: 1000;
+        transition: transform 0.3s;
+        background-color: #fff;
+        width: 100%;
+    }
+
+    .widgets.active{
+        transform: translateX(0%);
+    }
+    
+}

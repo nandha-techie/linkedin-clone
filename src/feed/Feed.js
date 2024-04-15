@@ -70,7 +70,6 @@ const Feed = ()=>{
                     <CreateIcon className='' />
                     <form onSubmit={ sendPost }>
                         <input type="text" value={postInput} onChange={(e)=> setPostInput(e.target.value)} />
-                        <input type="text" />
                         <button type="submit">Send</button>
                     </form>
                 </div>

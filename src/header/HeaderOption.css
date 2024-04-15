@@ -19,3 +19,9 @@
     height: 25px !important;
     width: 25px !important;
 }
+@media (max-width: 600px) {
+    .mobile-menu .headerOption{
+        /* display: flex; */
+        justify-content: space-evenly;
+    }
+}

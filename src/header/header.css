@@ -38,5 +38,43 @@
 
 .header__right{
     display: flex;
-    
+}
+.mobile_menu, .header__profile, .header__message{
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    .header__right{
+        display: none;
+    }
+    .mobile_menu {
+        display: flex !important;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        justify-content: space-around;
+        background-color: #fff;
+        z-index: 999;
+        width: 100%;
+        transition: transform 0.3s;
+    }
+    .header__profile{
+        display: flex !important;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    .header__search{
+        width: 200px;
+    }
+    .header__message{
+        display: block !important;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .mobile_menu.scroll_down {
+        transform: translate3d(0, 100%, 0);
+    }
+    .mobile_menu.scroll_up {
+        transform: none;
+    }
 }

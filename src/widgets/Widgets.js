@@ -2,7 +2,7 @@ import './Widgets.css';
 import InfoIcon from '@mui/icons-material/Info';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
-const Widgets =()=>{
+const Widgets =({messagebarStatus})=>{
 
     const newArticle = (heading, subtitle)=>{
         return ( <div className='widgets__article'>
@@ -18,7 +18,7 @@ const Widgets =()=>{
     };
 
     return(
-        <div className='widgets'>
+        <div className={`widgets ${messagebarStatus? 'active' : ''}` }>
             <div className='widgets__header'>
                 <h2>LinkedIn News</h2>
                 <InfoIcon />

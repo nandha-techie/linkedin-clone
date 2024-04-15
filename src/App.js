@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
 import Widgets from './widgets/Widgets';
@@ -15,6 +15,17 @@ function App() {
   const user = useSelector(selectUser);
   const auth = getAuth();
   const dispatch = useDispatch();
+  const [sidebarStatus, setSidebarStatus] = useState(false);
+  const [messagebarStatus, setMessagebarStatus] = useState(false);
+  const sidebarHandler = ()=>{
+    setSidebarStatus(!sidebarStatus);
+    setMessagebarStatus(false);
+  }
+
+  const messageHandler = ()=>{
+    setMessagebarStatus(!messagebarStatus);
+    setSidebarStatus(false);
+  }
 
   useEffect(()=>{
 
@@ -37,16 +48,16 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+      <Header sidebarHandler={sidebarHandler} messageHandler={messageHandler} />
       {!user ? ( <Login /> ) : (
 
         <div className='app_body'>
             {/* sidebar */}
-            <Sidebar />
+            <Sidebar sidebarStatus={sidebarStatus} />
             {/* feed */}
             <Feed />
             {/* widget */} 
-            <Widgets />          
+            <Widgets messagebarStatus={messagebarStatus} />          
         </div>
       )}
 

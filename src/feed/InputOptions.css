@@ -15,3 +15,13 @@
 .inputOptions > h4{
     margin-left: 5px;
 }
+
+@media (max-width: 600px) {
+    .inputOptions{
+        padding: 5px;
+    }
+    .inputOptions > h4{
+        margin-left: 3px;
+        font-size: 0.8rem;
+    }
+}
