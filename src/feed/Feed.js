@@ -19,12 +19,12 @@ const Feed = ()=>{
     const [posts, setPosts] = useState([]);
     const [postInput, setPostInput] = useState('');
     let tempPost = useRef([]);
-
+    
     const likeHandle = async (val)=>{
         const docRef = doc(db, "posts", val);
         const docSnap = await getDoc(docRef);
         const data = docSnap.data();
-        await setDoc(docRef, {...data, like: (!data.like.includes(val)) ? [...data.like, val] : data.like });
+        if(data) await setDoc(docRef, {...data, like: (!data.like.includes(user.uid)) ? [...data.like, user.uid] : data.like });
     }
 
     const sendPost = async (e)=>{
@@ -59,7 +59,7 @@ const Feed = ()=>{
         if(searchValue.searchData === ""){
            setPosts([...tempPost.current]);
         }else{
-            setPosts(tempPost.current.filter(post=> post.message.includes(searchValue.searchData)).map(data => data))
+            setPosts(tempPost.current.filter(post=> post.message.toLowerCase().includes(searchValue.searchData.toLowerCase())).map(data => data))
         } 
     }, [searchValue.searchData]);
 
@@ -83,8 +83,9 @@ const Feed = ()=>{
             {/* post */}
             <FlipMove>
                 { posts && posts.map((post, index) => (
-                    <Post key={post.id} likecount={post.like} id={post.id} name={post.displayName} description={post.description} url={post.photoURL} message={post.message} likeHandle={likeHandle} />
-                )) }
+                        <Post key={post.id} likecount={post.like} id={post.id} name={post.displayName} description={post.description} url={post.photoURL} message={post.message} likeHandle={likeHandle} />
+                    )) 
+                }
             </FlipMove>
         </div>
     )
